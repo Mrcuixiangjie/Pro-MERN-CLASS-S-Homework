@@ -2,7 +2,7 @@ const contentNode = document.getElementById('contents');
 const issues = [
 	{
 		id:1,status:'open',owener:'Mr cui',
-		created:new Date('2019-04-25'),effort:5,completionDate:undefined,
+		created:new Date('2019-04-25'),effort:5,completionDate:'underfined',
 		title:'Error in console when clicking Add',
 	},
 	{
@@ -14,17 +14,11 @@ const issues = [
 ];
 class IssueRow extends React.Component{
 	render(){
-		const issue=this.props.issue;
+		const borderStyle = {border:"1px solid silver",padding:4};
 		return(
 			<tr>
-				<td>{issue.id}</td>
-				<td>{issue.status}</td>
-				<td>{issue.owener}</td>
-                                <td>{issue.created.toDateString()}</td>
- 				<td>{issue.effort}</td>
-                                <td>{issue.completionDate ?
-				 issue.completionDate.toDateString() : ''}</td>
-				<td>{issue.title}</td>
+				<td style={borderStyle}>{this.props.issue_id}></td>
+				<td style={borderStyle}>{this.props.issue_title}></td>
 			</tr>
 		)
 	}
@@ -38,7 +32,7 @@ class IssueFilter extends React.Component{
 }
 class IssueTable extends React.Component{
 	render(){
-		const issueRows = this.props.issues.map(issue => <IssueRow
+		const issueRows = this.props.issue.map(issue => <IssueRow
 		key={issue.id} issue={issue} />)
 		return(
 			<table className="bordered-table">
@@ -74,7 +68,7 @@ class IssueList extends React.Component{
 				<h1>Issue Tracker</h1>
 				<IssueFilter />
 				<hr />
-				<IssueTable issues={issues} />
+				<IssueTable />
 				<hr />
 				<IssueAdd />
 			</div>
