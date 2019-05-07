@@ -98,12 +98,12 @@ class IssueList extends React.Component{
 		}).then(response => response.json()
 		).then(updatedIssue => {
 		updatedIssue.created = new Date(updatedIssue.created);
-			if(updateIssue.completionDate)
-			updatedIssues.completionDate = new Date(updatedIssue.
+			if(updatedIssue.completionDate)
+			updatedIszsue.completionDate = new Date(updatedIssue.
 				completionDate);
 			const newIssues= this.state.issues.concat(updatedIssue);
 			this.setState({ issues: newIssues });
-		}).catch(err =>{
+		}).catch(err => {
 			alert("Error in sending data to server:"+err.message);
 		});
 	}
