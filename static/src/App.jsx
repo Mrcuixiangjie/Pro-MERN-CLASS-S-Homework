@@ -80,7 +80,7 @@ class IssueList extends React.Component{
 			response.json()
 		).then(data =>{
 			console.log("Total count of records:",data._metadata.total_count);
-			data.records.forEach(issues =>{
+			data.records.forEach(issue =>{
 				issue.created = new Date(issue.created);
 				if(issue.completionDate)
 					issue.completionDate = new Date(issue.completionDate);
@@ -91,10 +91,21 @@ class IssueList extends React.Component{
 		});
 	}
 	createIssue(newIssue){
-		const newIssues=this.state.issues.slice();
-		newIssue.id=this.state.issues.length+1;
-		newIssues.push(newIssue);
-		this.setState({issues:newIssues});
+		fetch('/api/issues',{
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(newIssue),
+		}).then(response => response.json()
+		).then(updatedIssue => {
+		updatedIssue.created = new Date(updatedIssue.created);
+			if(updateIssue.completionDate)
+			updatedIssues.completionDate = new Date(updatedIssue.
+				completionDate);
+			const newIssues= this.state.issues.concat(updatedIssue);
+			this.setState({ issues: newIssues });
+		}).catch(err =>{
+			alert("Error in sending data to server:"+err.message);
+		});
 	}
 	render(){
 		return(
