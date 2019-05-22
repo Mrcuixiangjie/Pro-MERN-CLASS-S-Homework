@@ -57,4 +57,19 @@ function testWithPromises(){
 		console.log('ERROR',err);
 	});
 }
+function testWithGenerator(){
+	const co = require('co');
+	co(function*() {
+		const db = yield MongoClient.connect('mongodb://localhost/playground');
+		const result = yield db.collection('employees').insertOne({id:1,
+			name: 'C.Generetor'});
+		console.log('Result of insert:',result.insertedId);
+		const docs = yield db.collection('employees').find({id: 1}).toArray();
+		console.log('Result of find:',docs);
+		db.close();
+	}).catch(err =>　{
+		console.log('ERROR':err);
+	});
+}
+
 
