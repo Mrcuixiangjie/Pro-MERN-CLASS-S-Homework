@@ -41,3 +41,20 @@ function testWithCallbacks(){
 			});
 	});
 }
+function testWithPromises(){
+	let db;
+	MongoClient.connect('mongo://localhost/playground').then(connection =>{
+		db = connection;
+		return db.collection('employees').insertOne({id: 1,name:
+			'B.Promises'});
+	}).then(result =>{
+		console.log("Result if insert:",result.insertedId);
+		return db.collection('employees').find({id:1}).toArray();
+	}).then(docs =>{
+		console.log('Result of find:',docs);
+		db.close();
+	}).catch(err =>{
+		console.log('ERROR',err);
+	});
+}
+
