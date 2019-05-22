@@ -71,5 +71,31 @@ function testWithGenerator(){
 		console.log('ERROR':err);
 	});
 }
-
+function testWithAsync() {
+  const async = require('async');
+  let db;
+  async.waterfall([
+    next => {
+      MongoClient.connect('mongodb://localhost/playground', next);
+    },
+    (connection, next) => {
+      db = connection;
+      db.collection('employees').insertOne({id: 1, name: 'D. Async'}, next);
+    },
+    (insertResult, next) => {
+      console.log('Insert result:', insertResult.insertedId);
+      db.collection('employees').find({id: 1}).toArray(next);
+    },
+    (docs, next) => {
+      console.log('Result of find:', docs);
+      db.close();
+      next(null, 'All done');
+    }
+  ], (err, result) => {
+    if (err)
+      console.log('ERROR', err);
+    else
+      console.log(result);
+  });
+}
 
